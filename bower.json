@@ -1,0 +1,29 @@
+{
+  "name": "webComponent.Ninja.JS",
+  "version": "0.0.0",
+  "authors": [
+    "Cleber de Moraes Goncalves <cleber.programmer@hotmail.com>"
+  ],
+  "description": "Fornece uma API para vincular o comportamento de elementos DOM. Ele é baseado na especificação W3C para elementos personalizados",
+  "main": "webComponent.js",
+  "keywords": [
+    "javascript"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Bibizzy/webComponent.Ninja.JS",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Ninja.JS": "*",
+    "fileRequest.Ninja.JS": "*",
+    "keys.Ninja.JS": "*",
+    "memoize.Ninja.JS": "*",
+    "reduce.Ninja.JS": "*",
+    "template.Ninja.JS": "*"
+  }
+}

@@ -1,12 +1,12 @@
 this.Ninja.module('$component', [
   
-  '$keys',
   '$fileRequest',
+  '$keys',
   '$memoize',
   '$reduce',
   '$template'
 
-], function ($keys, $fileRequest, $memoize, $reduce, $template) {
+], function ($fileRequest, $keys, $memoize, $reduce, $template) {
 
   return function (name, description) {
     
