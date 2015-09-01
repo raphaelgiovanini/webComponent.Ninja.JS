@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "Ninja.JS": "*",
+    "event.Ninja.JS": "*",
     "fileRequest.Ninja.JS": "*",
     "keys.Ninja.JS": "*",
     "memoize.Ninja.JS": "*",

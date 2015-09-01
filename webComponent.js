@@ -1,12 +1,13 @@
 this.Ninja.module('$webComponent', [
   
+  '$event',
   '$fileRequest',
   '$keys',
   '$memoize',
   '$reduce',
   '$template'
 
-], function ($fileRequest, $keys, $memoize, $reduce, $template) {
+], function ($event, $fileRequest, $keys, $memoize, $reduce, $template) {
 
   return function (name, description) {
     
@@ -56,8 +57,7 @@ this.Ninja.module('$webComponent', [
         
         createdCallback: {
           value: function () {
-            mixin(this);
-            (description.created || stub)(this);
+            mixin(this), (description.created || stub)(this);
           }
         },
         
