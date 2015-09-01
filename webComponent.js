@@ -1,4 +1,4 @@
-this.Ninja.module('$component', [
+this.Ninja.module('$webComponent', [
   
   '$fileRequest',
   '$keys',
