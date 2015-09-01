@@ -1,13 +1,16 @@
 this.Ninja.module('$webComponent', [
   
+  '$apply',
+  '$concat',
   '$event',
   '$fileRequest',
   '$keys',
   '$memoize',
   '$reduce',
+  '$split',
   '$template'
 
-], function ($event, $fileRequest, $keys, $memoize, $reduce, $template) {
+], function ($apply, $concat, $event, $fileRequest, $keys, $memoize, $reduce, $split, $template) {
 
   return function (name, description) {
     
@@ -16,6 +19,12 @@ this.Ninja.module('$webComponent', [
     });
     
     var fileTemplate;
+    
+    function hookEvent(context, method) {
+      for (var key in description.events) {
+        $apply($event(context)[method], $concat($split(key, ' '), [description.events[key]]));
+      }
+    }
     
     function mixin(root) {
       for (var name in (description.prototype || {})) {
@@ -69,27 +78,9 @@ this.Ninja.module('$webComponent', [
         
         setState: {
           value: function (data) {
-            
-            function event(callback, e) {
-              callback(this, e.srcElement || e.target, e);
-            }
-            
-            function hook(type, selector, callback, method) {
-              [].slice.call((this.shadowRoot || this).querySelectorAll(selector)).forEach(function (item) {
-                item[method](type, event.bind(this, callback), !1);
-              }, this);
-            }
-            
-            for (var key in description.events) {
-              hook.apply(this, key.split(' ').concat([description.events[key], 'removeEventListener']));
-            }
-            
+            hookEvent(this, 'off');
             (this.shadowRoot || this).innerHTML = $template(fileTemplate, data);
-            
-            for (var key in description.events) {
-              hook.apply(this, key.split(' ').concat([description.events[key], 'addEventListener']));
-            }
-            
+            hookEvent(this, 'on');
           }
         }
         
