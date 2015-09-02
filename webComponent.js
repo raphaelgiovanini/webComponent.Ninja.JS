@@ -20,9 +20,9 @@ this.Ninja.module('$webComponent', [
     
     var fileTemplate;
     
-    function hookEvent(context, method) {
+    function hookEvent(method) {
       for (var key in description.events) {
-        $apply($event(context.shadowRoot)[method], $concat($split(key, ' '), [description.events[key]]));
+        $apply($event((this.shadowRoot || this))[method], $concat($split(key, ' '), [description.events[key]]));
       }
     }
     
@@ -78,9 +78,9 @@ this.Ninja.module('$webComponent', [
         
         setState: {
           value: function (data) {
-            hookEvent(this, 'off');
+            hookEvent('off');
             (this.shadowRoot || this).innerHTML = $template(fileTemplate, data);
-            hookEvent(this, 'on');
+            hookEvent('on');
           }
         }
         
