@@ -22,7 +22,7 @@ this.Ninja.module('$webComponent', [
     
     function hookEvent(context, method) {
       for (var key in description.events) {
-        $apply($event(context)[method], $concat($split(key, ' '), [description.events[key]]));
+        $apply($event(context.shadowRoot)[method], $concat($split(key, ' '), [description.events[key]]));
       }
     }
     
