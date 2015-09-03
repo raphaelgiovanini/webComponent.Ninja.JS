@@ -2,26 +2,18 @@ this.Ninja.module('$webComponent', [
   
   '$apply',
   '$concat',
+  '$curry',
   '$event',
-  '$fileRequest',
-  '$keys',
-  '$memoize',
-  '$reduce',
-  '$split',
-  '$template'
+  '$split'
 
-], function ($apply, $concat, $event, $fileRequest, $keys, $memoize, $reduce, $split, $template) {
+], function ($apply, $concat, $curry, $event, $split) {
+  
+  function stub() {}
 
   return function (name, description) {
     
-    var getAttribute = $memoize(function (name) {
-      return (description.attributes || {})[name] || stub;
-    });
-    
-    var fileTemplate;
-    
     function hookEvent(root, method) {
-      for (var key in description.events) {
+      for (var key in description.events || {}) {
         $apply($event((root.shadowRoot || root))[method], $concat($split(key, ' '), [description.events[key]]));
       }
     }
@@ -32,8 +24,10 @@ this.Ninja.module('$webComponent', [
       }
     }
     
-    function stub() {
-      return {};
+    function render(root, html) {
+      hookEvent(root, 'off');
+      ((root.createShadowRoot && root.createShadowRoot()) || root).innerHTML = html;
+      hookEvent(root, 'on');
     }
     
     document.registerElement(name, {
@@ -41,26 +35,13 @@ this.Ninja.module('$webComponent', [
       
         attachedCallback: {
           value: function () {
-            
-            var that = this;
-            
-            $fileRequest(description.templateUrl, function (template) {
-              
-              fileTemplate = template;
-              
-              that.createShadowRoot && (that.createShadowRoot());
-              that.setState((description.getInitialState || stub)(that));
-              
-              (description.attached || stub)(that);
-              
-            });
-            
+            (description.attached || stub)(this);
           }
         },
       
         attributeChangedCallback: {
           value: function (attrName, oldValue, newValue) {
-            getAttribute(attrName)(this, oldValue, newValue);
+            ((description.attributes || {})[attrName] || stub)(this, oldValue, newValue);
           }
         },
         
@@ -72,15 +53,13 @@ this.Ninja.module('$webComponent', [
         
         detachedCallback: {
           value: function () {
-            (description.detached || stub)(this);
+            hookEvent(this, 'off'), (description.detached || stub)(this);
           }
         },
         
         setState: {
           value: function (data) {
-            hookEvent(this, 'off');
-            (this.shadowRoot || this).innerHTML = $template(fileTemplate, data);
-            hookEvent(this, 'on');
+            (description.template || stub)(this, data, $curry(render)(this));
           }
         }
         
