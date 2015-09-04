@@ -12,22 +12,20 @@ this.Ninja.module('$webComponent', [
 
   return function (name, description) {
     
-    function hookEvent(root, method) {
+    function eventDelegation(root) {
       for (var key in description.events || {}) {
-        $apply($event((root.shadowRoot || root))[method], $concat($split(key, ' '), [description.events[key]]));
+        $apply($event((root.shadowRoot || root)).delegation, $concat($split(key, ' '), [description.events[key]]));
       }
     }
     
-    function mixin(root) {
+    function merge(root) {
       for (var name in (description.prototype || {})) {
         root[name] = description.prototype[name].bind(null, root);
       }
     }
     
     function render(root, html) {
-      hookEvent(root, 'off');
-      ((root.createShadowRoot && root.createShadowRoot()) || root).innerHTML = html;
-      hookEvent(root, 'on');
+      root.shadowRoot.innerHTML = html;
     }
     
     document.registerElement(name, {
@@ -47,13 +45,13 @@ this.Ninja.module('$webComponent', [
         
         createdCallback: {
           value: function () {
-            mixin(this), (description.created || stub)(this);
+            this.createShadowRoot(), eventDelegation(this), merge(this), (description.created || stub)(this);
           }
         },
         
         detachedCallback: {
           value: function () {
-            hookEvent(this, 'off'), (description.detached || stub)(this);
+            (description.detached || stub)(this);
           }
         },
         
