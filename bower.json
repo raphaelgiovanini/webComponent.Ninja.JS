@@ -22,12 +22,8 @@
     "Ninja.JS": "*",
     "apply.Ninja.JS": "*",
     "concat.Ninja.JS": "*",
+    "curry.Ninja.JS": "*",
     "event.Ninja.JS": "*",
-    "fileRequest.Ninja.JS": "*",
-    "keys.Ninja.JS": "*",
-    "memoize.Ninja.JS": "*",
-    "reduce.Ninja.JS": "*",
-    "split.Ninja.JS": "*",
-    "template.Ninja.JS": "*"
+    "split.Ninja.JS": "*"
   }
 }
