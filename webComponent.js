@@ -14,7 +14,7 @@ this.Ninja.module('$webComponent', [
     
     function eventDelegation(root) {
       for (var key in description.events || {}) {
-        $apply($event((root.shadowRoot || root)).delegation, $concat($split(key, ' '), [description.events[key]]));
+        $apply($event((root.shadowRoot || root)).delegation, $concat($split(key, ' '), [description.events[key].bind(null, root)]));
       }
     }
     
