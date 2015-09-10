@@ -25,7 +25,7 @@ this.Ninja.module('$webComponent', [
     }
     
     function render(root, html) {
-      root.shadowRoot.innerHTML = html;
+      (root.shadowRoot || root).innerHTML = html;
     }
     
     document.registerElement(name, {
@@ -45,7 +45,7 @@ this.Ninja.module('$webComponent', [
         
         createdCallback: {
           value: function () {
-            this.createShadowRoot(), eventDelegation(this), merge(this), (description.created || stub)(this);
+            (this.createShadowRoot && this.createShadowRoot()), eventDelegation(this), merge(this), (description.created || stub)(this);
           }
         },
         
