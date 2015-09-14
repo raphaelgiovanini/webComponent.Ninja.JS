@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "Ninja.JS": "*",
+    "always.Ninja.JS": "*",
     "apply.Ninja.JS": "*",
     "concat.Ninja.JS": "*",
     "curry.Ninja.JS": "*",
