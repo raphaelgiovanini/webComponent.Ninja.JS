@@ -52,7 +52,7 @@ this.Ninja.module('$webComponent', [
         
         setState: {
           value: function (data) {
-            (description.template || $always())(this, data);
+            (description.template || $always())(this, this.state = data);
           }
         }
         
